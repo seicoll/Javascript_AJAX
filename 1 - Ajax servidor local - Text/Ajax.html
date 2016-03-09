@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Exemple d'AJAX</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    </script>
+    <script>
+        $(document).ready(function() {
+            
+            document.getElementById("boto").addEventListener('click',peticioAJAX);
+            
+            function peticioAJAX()
+			{
+				// INSTANCIAR L'OBJECTE XMLHttpRequest
+				// Creem un objecte de petició d'intercanvi de dades
+				var xmlhttp = new XMLHttpRequest();
+				
+				// PREPAREM LA FUNCIÓ DE RESPOSTA
+				// Associem una funció a l'esdeveniment onreadystatechange que es produeix quan la 
+				// petició ha canviat d'estat i així podem dectectar si s'ha rebut la resposta 
+				// i interactuar amb les dades rebudes
+				xmlhttp.onreadystatechange = function() 
+				{
+					// Si la petició s'ha completat correctament rebrem un codi 200 (Resposta correcta) 
+					// i serem a l'estat 4 (Petició completa)
+					if ( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+					{
+						// Tenim les dades rebudes del servidor dins de xmlhttp.responseText
+						var resposta = xmlhttp.responseText;
+
+						// Carreguem les dades retornades al div #desti
+						document.getElementById("desti").innerHTML= resposta;
+					}
+				};
+				
+				// CREACIÓ DE LA PETICIÓ AL SERVIDOR
+				// Indiquem el mètode (GET) i la URL del servidor que ens retornarà les dades
+				// El tercer paràmetre indica que la crida és asíncrona, per tant l'execució de
+				// la resta del codi JavaScript no s'atura per esperar la resposta
+				xmlhttp.open("GET", "arxiu.txt", true);
+
+				// ENVIAMENT DE LA PETICIÓ AL SERVIDOR
+				// Llancem la petició assíncrona al servidor 
+				xmlhttp.send();				
+			}
+        });
+    </script>
+    <style>
+        #desti {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Al apretar el botó, carregarem a dintre del paràgraf blau, el contingut de l'arxiu txt, del servidor.
+    </p>
+    <input type="button" id="boto" value="Carrega" />
+    <p id="desti">Aquí carregarem un contingut amb AJAX des del servidor</p>
+</body>
+
+</html>
